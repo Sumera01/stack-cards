@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://stackcards.dev/schema/v0.1.0.json",
+  "title": "Stack Card",
+  "description": "A standardized transparency document for full-stack software projects.",
+  "type": "object",
+  "required": ["stack_card_version", "project", "intended_use", "stack"],
+  "properties": {
+    "stack_card_version": {
+      "type": "string",
+      "description": "Version of the Stack Card specification",
+      "enum": ["0.1.0"]
+    },
+    "project": {
+      "type": "object",
+      "description": "Project identity and metadata",
+      "required": ["name", "version", "date_created"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable project name"
+        },
+        "version": {
+          "type": "string",
+          "description": "Project version (SemVer recommended)"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the Stack Card was first created"
+        },
+        "date_updated": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the Stack Card was last updated"
+        },
+        "authors": {
+          "type": "array",
+          "description": "List of authors or maintainers",
+          "items": { "type": "string" }
+        },
+        "repository_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the project repository"
+        },
+        "license": {
+          "type": "string",
+          "description": "SPDX license identifier or custom license name"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Email or contact URL for questions"
+        }
+      }
+    },
+    "intended_use": {
+      "type": "object",
+      "description": "Use cases, target users, and boundaries",
+      "required": ["primary_use", "intended_users"],
+      "properties": {
+        "primary_use": {
+          "type": "string",
+          "description": "Main purpose of the project"
+        },
+        "intended_users": {
+          "type": "string",
+          "description": "Who the project is designed for"
+        },
+        "out_of_scope": {
+          "type": "array",
+          "description": "Use cases explicitly not supported",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "stack": {
+      "type": "array",
+      "description": "Technology layers composing the project",
+      "items": {
+        "type": "object",
+        "required": ["layer", "technology", "version"],
+        "properties": {
+          "layer": {
+            "type": "string",
+            "enum": ["frontend", "backend", "database", "auth", "hosting", "ai_model", "other"],
+            "description": "Architectural layer of the technology"
+          },
+          "technology": {
+            "type": "string",
+            "description": "Name of the technology or framework"
+          },
+          "version": {
+            "type": "string",
+            "description": "Exact version string (e.g., '18.2.0', not '18+')"
+          },
+          "source_file": {
+            "type": "string",
+            "description": "File where this dependency is declared (e.g., package.json)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional context about this layer"
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Summary of project dependencies",
+      "properties": {
+        "direct_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of direct dependencies"
+        },
+        "transitive_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of transitive dependencies"
+        },
+        "sbom_reference": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the full SBOM document"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Security posture and known caveats",
+      "properties": {
+        "environment_variables_required": {
+          "type": "array",
+          "description": "Secrets or env vars needed to run",
+          "items": { "type": "string" }
+        },
+        "data_handling": {
+          "type": "string",
+          "description": "How user data is stored, processed, and protected"
+        },
+        "authentication_method": {
+          "type": "string",
+          "description": "How users authenticate (e.g., OAuth, JWT, session-based)"
+        },
+        "known_caveats": {
+          "type": "array",
+          "description": "Known security limitations or TODOs",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "ethical_considerations": {
+      "type": "object",
+      "description": "Ethical analysis inspired by Model Cards",
+      "properties": {
+        "uses_sensitive_data": {
+          "type": "boolean",
+          "description": "Does the project process PII or sensitive data?"
+        },
+        "impacts_human_life": {
+          "type": "boolean",
+          "description": "Could the project affect health, safety, or wellbeing?"
+        },
+        "mitigations": {
+          "type": "array",
+          "description": "Risk mitigation strategies in place",
+          "items": { "type": "string" }
+        },
+        "risks_and_harms": {
+          "type": "string",
+          "description": "Potential risks and who might be affected"
+        }
+      }
+    },
+    "caveats": {
+      "type": "array",
+      "description": "Additional concerns not covered above",
+      "items": { "type": "string" }
+    },
+    "alerts": {
+      "type": "array",
+      "description": "Active vulnerability/deprecation notices (populated by scanner)",
+      "items": {
+        "type": "object",
+        "required": ["type", "severity", "affected_technology", "description"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["vulnerability", "deprecation", "breaking_change"],
+            "description": "Category of the alert"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "description": "Severity level"
+          },
+          "affected_technology": {
+            "type": "string",
+            "description": "Name of the affected technology"
+          },
+          "affected_version": {
+            "type": "string",
+            "description": "Version range affected (e.g., '< 7.5.2')"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the issue"
+          },
+          "remediation": {
+            "type": "string",
+            "description": "Recommended fix or upgrade path"
+          },
+          "date_detected": {
+            "type": "string",
+            "format": "date",
+            "description": "When the alert was generated"
+          }
+        }
+      }
+    }
+  }
+}
