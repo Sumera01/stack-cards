@@ -108,7 +108,7 @@ This is an early-stage research project. We welcome:
 - Suggestions for the CLI tool
 - Citations and connections to related work
 
-Open an issue or reach out: [your-email or Twitter handle]
+Open an issue or reach out: sumera.s.shaikh11@gmail.com
 
 ## Citation
 
@@ -117,7 +117,7 @@ If you use Stack Cards in your research or project, please cite:
 ```bibtex
 @article{yourname2026stackcards,
   title={Stack Cards: Standardized Transparency for Full-Stack Software Projects},
-  author={[Your Name]},
+  author={[Sumera]},
   journal={arXiv preprint},
   year={2026}
 }
