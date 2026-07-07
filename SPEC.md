@@ -2,7 +2,7 @@
 
 **Status:** Draft  
 **Date:** 2026-07-06  
-**Authors:** [Your Name]  
+**Authors:** Sumera  
 
 ## 1. Overview
 
