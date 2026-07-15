@@ -71,6 +71,31 @@ A Stack Card is a short, standardized document that accompanies a software proje
 | Vulnerability | Medium | semver | < 7.5.2 — ReDoS in range parsing |
 ```
 
+## Installation
+
+```bash
+# Clone the repo and use locally
+git clone https://github.com/Sumera01/stack-cards.git
+cd stack-cards/cli
+node bin/stack-card.js init /path/to/your/project
+
+# Or install globally (when published to npm)
+npm install -g stack-card-cli
+stack-card init /path/to/your/project
+```
+
+## Usage
+
+```bash
+# Generate a draft Stack Card from a repository
+stack-card init /path/to/your/project
+# Output: stack-card.json
+
+# Render stack-card.json to human-readable Markdown
+stack-card render /path/to/your/project
+# Output: STACK_CARD.md
+```
+
 ## Repository Structure
 
 ```
@@ -82,9 +107,21 @@ stack-cards/
 │   └── default.md           # Default Markdown template
 ├── examples/                # Example Stack Cards for real projects
 │   └── mood-journal/
+│       ├── package.json
+│       ├── package-lock.json
 │       ├── stack-card.json
 │       └── STACK_CARD.md
-├── cli/                     # CLI tool for auto-generation (Phase 2)
+├── cli/                     # CLI tool for auto-generation ✅ v0.1.0
+│   ├── bin/
+│   │   └── stack-card.js    # Entry point
+│   ├── lib/
+│   │   ├── init.js          # Generate stack-card.json
+│   │   ├── render.js        # Render STACK_CARD.md
+│   │   ├── generator.js     # Build Stack Card structure
+│   │   └── parsers/
+│   │       ├── package-json.js      # Node.js parser (40+ tech detectors)
+│   │       └── requirements-txt.js  # Python parser
+│   └── package.json
 └── README.md                # This file
 ```
 
@@ -100,8 +137,8 @@ stack-cards/
 |-------|--------|-------------|
 | **0** | ✅ Done | Literature review & gap analysis |
 | **1** | ✅ Done | Spec v0.1 + schema + template |
-| **2** | 🔄 Now | Minimal CLI for auto-generation from repos |
-| **3** | 📋 Planned | Real-world evaluation with vibe coders |
+| **2** | ✅ Done | Minimal CLI for auto-generation from repos |
+| **3** | 🔄 Now | Real-world evaluation with vibe coders |
 | **4** | 📋 Planned | Paper submission (NIER / ICSE) + arXiv |
 | **5** | 📋 Planned | Registry + proactive alerting service |
 
@@ -135,3 +172,4 @@ MIT License — see [LICENSE](./LICENSE) for details.
 ## Acknowledgments
 
 Inspired by [Model Cards for Model Reporting](https://arxiv.org/abs/1810.03993) (Mitchell et al., 2019) and [Datasheets for Datasets](https://arxiv.org/abs/1803.09010) (Gebru et al., 2018).
+```
