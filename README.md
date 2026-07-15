@@ -8,7 +8,9 @@
 
 ## The Problem
 
-With the rise of AI-assisted "vibe coding," millions of creators ship full-stack applications without knowing:
+Software transparency has always been imperfect. Even experienced teams struggle to track exact dependency versions, and "knowledge defects" — where creators simply don't recognize security requirements — account for nearly half of all vulnerabilities in deployed applications.
+
+AI-assisted "vibe coding" has amplified this existing failure mode by adding millions of non-expert creators who ship full-stack applications without knowing:
 - Which exact versions of React, Node, or their database they are running
 - What 1,200+ transitive dependencies are buried in their lockfile
 - Whether a critical CVE announced yesterday affects their specific stack
@@ -79,6 +81,9 @@ stack-cards/
 ├── templates/
 │   └── default.md           # Default Markdown template
 ├── examples/                # Example Stack Cards for real projects
+│   └── mood-journal/
+│       ├── stack-card.json
+│       └── STACK_CARD.md
 ├── cli/                     # CLI tool for auto-generation (Phase 2)
 └── README.md                # This file
 ```
@@ -94,8 +99,8 @@ stack-cards/
 | Phase | Status | Description |
 |-------|--------|-------------|
 | **0** | ✅ Done | Literature review & gap analysis |
-| **1** | 🔄 Now | Spec v0.1 + schema + template |
-| **2** | 📋 Next | Minimal CLI for auto-generation from repos |
+| **1** | ✅ Done | Spec v0.1 + schema + template |
+| **2** | 🔄 Now | Minimal CLI for auto-generation from repos |
 | **3** | 📋 Planned | Real-world evaluation with vibe coders |
 | **4** | 📋 Planned | Paper submission (NIER / ICSE) + arXiv |
 | **5** | 📋 Planned | Registry + proactive alerting service |
