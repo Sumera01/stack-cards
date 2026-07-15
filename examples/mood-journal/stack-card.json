@@ -1,0 +1,71 @@
+{
+  "stack_card_version": "0.1.0",
+  "project": {
+    "name": "moodjournal",
+    "version": "1.0.0",
+    "date_created": "2026-07-15",
+    "date_updated": "2026-07-15",
+    "authors": [
+      "Jane Doe"
+    ],
+    "license": "MIT",
+    "contact": ""
+  },
+  "intended_use": {
+    "primary_use": "",
+    "intended_users": "",
+    "out_of_scope": []
+  },
+  "stack": [
+    {
+      "layer": "frontend",
+      "technology": "Next.js",
+      "version": "14.2.0",
+      "source_file": "package.json"
+    },
+    {
+      "layer": "backend",
+      "technology": "Next.js API Routes",
+      "version": "14.2.0",
+      "source_file": "package.json"
+    },
+    {
+      "layer": "styling",
+      "technology": "Tailwind CSS",
+      "version": "3.4.0",
+      "source_file": "package.json"
+    },
+    {
+      "layer": "auth",
+      "technology": "Clerk",
+      "version": "4.29.0",
+      "source_file": "package.json"
+    },
+    {
+      "layer": "ai_model",
+      "technology": "OpenAI",
+      "version": "4.0.0",
+      "source_file": "package.json",
+      "notes": "API integration"
+    }
+  ],
+  "dependencies": {
+    "direct_count": 5,
+    "transitive_count": 9,
+    "sbom_reference": ""
+  },
+  "security": {
+    "environment_variables_required": [],
+    "data_handling": "",
+    "authentication_method": "",
+    "known_caveats": []
+  },
+  "ethical_considerations": {
+    "uses_sensitive_data": false,
+    "impacts_human_life": false,
+    "mitigations": [],
+    "risks_and_harms": ""
+  },
+  "caveats": [],
+  "alerts": []
+}
