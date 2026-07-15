@@ -115,7 +115,7 @@ Open an issue or reach out: sumera.s.shaikh11@gmail.com
 If you use Stack Cards in your research or project, please cite:
 
 ```bibtex
-@article{yourname2026stackcards,
+@article{sumera2026stackcards,
   title={Stack Cards: Standardized Transparency for Full-Stack Software Projects},
   author={Sumera},
   journal={arXiv preprint},
