@@ -1,0 +1,149 @@
+const fs = require('fs');
+const path = require('path');
+
+function render(targetPath) {
+  const jsonPath = path.join(targetPath, 'stack-card.json');
+  
+  if (!fs.existsSync(jsonPath)) {
+    console.error(`Error: stack-card.json not found in ${targetPath}`);
+    console.log('Run "stack-card init" first to generate stack-card.json');
+    process.exit(1);
+  }
+
+  const card = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+  
+  let md = `# Stack Card: ${card.project.name}\n\n`;
+  md += `**Version:** ${card.project.version} | **Date:** ${card.project.date_created}`;
+  if (card.project.date_updated !== card.project.date_created) {
+    md += ` | **Updated:** ${card.project.date_updated}`;
+  }
+  md += '\n\n';
+  
+  if (card.project.authors && card.project.authors.length > 0) {
+    md += `**Authors:** ${card.project.authors.join(', ')}\n\n`;
+  }
+  
+  if (card.project.license) {
+    md += `**License:** ${card.project.license}\n\n`;
+  }
+  
+  if (card.project.repository_url) {
+    md += `**Repository:** [${card.project.repository_url}](${card.project.repository_url})\n\n`;
+  }
+  
+  if (card.project.contact) {
+    md += `**Contact:** ${card.project.contact}\n\n`;
+  }
+  
+  md += '---\n\n';
+  
+  if (card.intended_use) {
+    md += '## Intended Use\n';
+    if (card.intended_use.primary_use) {
+      md += `- **Primary use:** ${card.intended_use.primary_use}\n`;
+    }
+    if (card.intended_use.intended_users) {
+      md += `- **Intended users:** ${card.intended_use.intended_users}\n`;
+    }
+    if (card.intended_use.out_of_scope && card.intended_use.out_of_scope.length > 0) {
+      md += '- **Out of scope:**\n';
+      card.intended_use.out_of_scope.forEach(item => {
+        md += `  - ${item}\n`;
+      });
+    }
+    md += '\n';
+  }
+  
+  if (card.stack && card.stack.length > 0) {
+    md += '## Stack Composition\n\n';
+    md += '| Layer | Technology | Version | Source | Notes |\n';
+    md += '|-------|-----------|---------|--------|-------|\n';
+    card.stack.forEach(layer => {
+      md += `| ${layer.layer} | ${layer.technology} | ${layer.version} | ${layer.source_file || ''} | ${layer.notes || ''} |\n`;
+    });
+    md += '\n';
+  }
+  
+  if (card.dependencies) {
+    md += '## Dependencies\n';
+    md += `- **Direct:** ${card.dependencies.direct_count || 0}\n`;
+    md += `- **Transitive:** ${card.dependencies.transitive_count || 0}\n`;
+    if (card.dependencies.sbom_reference) {
+      md += `- **SBOM:** [View full SBOM](${card.dependencies.sbom_reference})\n`;
+    }
+    md += '\n';
+  }
+  
+  if (card.security) {
+    md += '## Security\n';
+    if (card.security.environment_variables_required && card.security.environment_variables_required.length > 0) {
+      md += '- **Environment variables required:**\n';
+      card.security.environment_variables_required.forEach(env => {
+        md += `  - \`${env}\`\n`;
+      });
+    }
+    if (card.security.data_handling) {
+      md += `- **Data handling:** ${card.security.data_handling}\n`;
+    }
+    if (card.security.authentication_method) {
+      md += `- **Authentication:** ${card.security.authentication_method}\n`;
+    }
+    if (card.security.known_caveats && card.security.known_caveats.length > 0) {
+      md += '- **Known caveats:**\n';
+      card.security.known_caveats.forEach(caveat => {
+        md += `  - ${caveat}\n`;
+      });
+    }
+    md += '\n';
+  }
+  
+  if (card.ethical_considerations) {
+    md += '## Ethical Considerations\n';
+    md += `- **Uses sensitive data:** ${card.ethical_considerations.uses_sensitive_data ? 'Yes' : 'No'}\n`;
+    md += `- **Impacts human life/safety:** ${card.ethical_considerations.impacts_human_life ? 'Yes' : 'No'}\n`;
+    if (card.ethical_considerations.mitigations && card.ethical_considerations.mitigations.length > 0) {
+      md += '- **Mitigations:**\n';
+      card.ethical_considerations.mitigations.forEach(m => {
+        md += `  - ${m}\n`;
+      });
+    }
+    if (card.ethical_considerations.risks_and_harms) {
+      md += `- **Risks and harms:** ${card.ethical_considerations.risks_and_harms}\n`;
+    }
+    md += '\n';
+  }
+  
+  if (card.caveats && card.caveats.length > 0) {
+    md += '## Caveats & Recommendations\n';
+    card.caveats.forEach(caveat => {
+      md += `- ${caveat}\n`;
+    });
+    md += '\n';
+  }
+  
+  if (card.alerts && card.alerts.length > 0) {
+    md += '## Active Alerts\n\n';
+    md += '| Type | Severity | Technology | Affected Version | Description | Remediation | Detected |\n';
+    md += '|------|----------|------------|----------------|-------------|-------------|----------|\n';
+    card.alerts.forEach(alert => {
+      md += `| ${alert.type} | ${alert.severity} | ${alert.affected_technology} | ${alert.affected_version} | ${alert.description} | ${alert.remediation} | ${alert.date_detected} |\n`;
+    });
+    md += '\n';
+  } else {
+    md += '## Active Alerts\n\n*No active alerts.*\n\n';
+  }
+  
+  md += '---\n\n';
+  md += `*Generated by stack-card-cli v0.1.0*  \n`;
+  md += `*Stack Card Spec v${card.stack_card_version}*  \n`;
+  if (card.alerts && card.alerts.length > 0) {
+    md += `*Last scanned: ${card.alerts[0].date_detected}*\n`;
+  }
+  
+  const outputPath = path.join(targetPath, 'STACK_CARD.md');
+  fs.writeFileSync(outputPath, md);
+  
+  console.log(`✅ STACK_CARD.md rendered: ${outputPath}`);
+}
+
+module.exports = { render };
